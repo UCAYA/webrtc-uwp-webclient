@@ -24,12 +24,13 @@ let createPeerConnection = (to) => {
     ]
   })
 
-  peerConnection.onicecandidate = (c) => {
-    sendMessageTo(to, JSON.stringify({
-      sdpMid: c.sdpMid,
-      sdpMLineIndex: c.sdpMLineIndex,
-      candidate: c.candidate
-    }))
+  peerConnection.onicecandidate = (evt) => {
+    if (evt.candidate) {
+      sendMessageTo(to, JSON.stringify({
+        sdpMid: evt.candidate.sdpMid,
+        sdpMLineIndex: evt.candidate.sdpMLineIndex,
+        candidate: evt.candidate.candidate }))
+    }
   }
 
   peerConnection.onconnectionstatechange = (evt) => {
@@ -67,13 +68,21 @@ let createAnswer = async (sdp, to) => {
   await sendMessageTo(to, JSON.stringify(answerResponse))
 }
 
-peerAddEventListener('messagefrompeer', ({ message, from }) => {
+const completeOffer = (sdp) => {
+  peerConnection.setRemoteDescription(new RTCSessionDescription(sdp))
+}
+
+peerAddEventListener('messagefrompeer', async ({ message, from }) => {
   if (message.candidate) {
-    peerConnection.addIceCandidate(new RTCIceCandidate(message))
+    try {
+      await peerConnection.addIceCandidate(new RTCIceCandidate(message))
+    } catch (e) {
+      console.error('Error adding ice candidate', message, e)
+    }
   } else if (message.type === 'offer') {
     createAnswer(message, from)
   } else if (message.type === 'answer') {
-    //
+    completeOffer(message)
   }
 })
 

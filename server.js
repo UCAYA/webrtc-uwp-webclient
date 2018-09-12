@@ -1,13 +1,13 @@
-import express from 'express'
+var express = require('express')
 
-const app = express()
+var app = express()
 
 app.use(express.static('dist'))
 
-app.get('/', (request, response) => {
+app.get('/', function (request, response) {
   response.sendFile(`${__dirname}/dist/index.html`)
 })
 
-const listener = app.listen(process.env.PORT, () => {
-  console.log(`Your app is listening on port ${listener.address().port}. 🚢`)
+const listener = app.listen(process.env.PORT, function () {
+  console.log('Your app is listening on port ' + listener.address().port)
 })

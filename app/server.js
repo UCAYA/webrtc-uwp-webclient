@@ -14,7 +14,7 @@ const fetchText = async (...args) => {
 }
 
 const get = (url) => fetchText(`${server}/${url}`)
-const post = (url, body) => fetchText(`${server}/${url}`, { method: 'POST', body, headers: { 'content-type': 'text/plain' } })
+const post = (url, body) => fetchText(`${server}/${url}`, { method: 'POST', body, headers: { 'Content-Type': 'text/plain' } })
 let myId = null
 
 const parsePeers = (peersList) => {
@@ -50,7 +50,7 @@ export const signIn = async (server, name) => {
 }
 
 export const signOut = () => get(`sign_out`)
-export const sendMessageFromTo = (myId, peerId, message) => log('sending msg', peerId, message) && post(`message?peer_id=${encodeURI(myId)}&to=${encodeURI(peerId)}`, message)
+export const sendMessageFromTo = (myId, peerId, message) => post(`message?peer_id=${encodeURI(myId)}&to=${encodeURI(peerId)}`, message)
 export const sendMessageTo = (peerId, message) => sendMessageFromTo(myId, peerId, message)
 export const wait = (myId) => get(`wait?peer_id=${encodeURI(myId)}`)
 

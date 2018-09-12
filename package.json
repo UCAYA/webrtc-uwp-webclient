@@ -2,7 +2,7 @@
   "name": "webpeercc",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "build": "webpack",
     "watch": "webpack --watch",
@@ -15,7 +15,7 @@
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
     "webrtc-adapter": "6.3.2",
-    "express": "^4.15.3"
+    "express": "^4.16.3"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
@@ -29,8 +29,5 @@
     "webpack": "^4.17.2",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.8"
-  },
-  "engines": {
-    "node": "8.1.x"
   }
 }

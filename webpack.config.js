@@ -10,7 +10,6 @@ module.exports = {
     path: path.resolve(__dirname, 'dist')
   },
   plugins: [
-    new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({ template: './app/index.html' })],
   // devtool: 'nosources-source-map',
   devServer: {
